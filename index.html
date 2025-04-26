@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BMI Calculator</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1a1a1a, #2d0b5d);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #fff;
+    }
+
+    .card {
+      background: #111;
+      padding: 30px 25px;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(138, 43, 226, 0.5);
+      width: 100%;
+      max-width: 370px;
+      text-align: center;
+      animation: fadeIn 1s ease;
+      transition: 0.4s all;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(138, 43, 226, 0.7);
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: scale(0.9);}
+      to {opacity: 1; transform: scale(1);}
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      background: linear-gradient(45deg, #8E2DE2, #4A00E0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: slideDown 1s ease;
+    }
+
+    @keyframes slideDown {
+      from {transform: translateY(-20px); opacity: 0;}
+      to {transform: translateY(0); opacity: 1;}
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      background: #222;
+      border: 2px solid #555;
+      border-radius: 12px;
+      font-size: 16px;
+      color: #fff;
+      transition: 0.3s;
+    }
+
+    input[type="number"]:focus {
+      border-color: #8E2DE2;
+      background: #1a1a1a;
+      outline: none;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    button {
+      flex: 1;
+      padding: 12px;
+      background: linear-gradient(135deg, #8E2DE2, #4A00E0);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      opacity: 0.85;
+      transform: scale(1.05);
+    }
+
+    #bmi {
+      margin-top: 20px;
+      font-size: 24px;
+      font-weight: 600;
+      color: #fff;
+      transition: 0.3s;
+    }
+
+    #status {
+      margin-top: 8px;
+      font-size: 18px;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .footer {
+      margin-top: 25px;
+      font-size: 12px;
+      color: #aaa;
+      text-align: center;
+      animation: fadeIn 2s ease;
+    }
+
+    @media (max-width: 400px) {
+      .card {
+        padding: 25px 20px;
+      }
+      h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>BMI Calculator</h1>
+
+    <form id="bmiForm" onsubmit="calculateBMI(event)">
+      <input type="number" id="height" placeholder="Height (cm)" required>
+      <input type="number" id="weight" placeholder="Weight (kg)" required>
+
+      <div class="buttons">
+        <button type="submit">Calculate</button>
+        <button type="button" onclick="resetForm()">Reset</button>
+      </div>
+    </form>
+
+    <div id="bmi"></div>
+    <div id="status"></div>
+
+    <div class="footer">
+      Healthy BMI range: 18.5–24.9
+    </div>
+  </div>
+
+  <script>
+    function calculateBMI(event) {
+      event.preventDefault();
+
+      const height = document.getElementById('height').value;
+      const weight = document.getElementById('weight').value;
+      const bmiDisplay = document.getElementById('bmi');
+      const statusDisplay = document.getElementById('status');
+
+      const bmi = (weight / ((height / 100) ** 2)).toFixed(1);
+      bmiDisplay.innerText = `Your BMI: ${bmi}`;
+
+      if (bmi < 18.5) {
+        statusDisplay.innerText = "Underweight";
+        statusDisplay.style.color = "#FFA726"; // orange
+      } else if (bmi >= 18.5 && bmi <= 24.9) {
+        statusDisplay.innerText = "Normal Weight";
+        statusDisplay.style.color = "#66BB6A"; // green
+      } else if (bmi >= 25 && bmi <= 29.9) {
+        statusDisplay.innerText = "Overweight";
+        statusDisplay.style.color = "#FF7043"; // dark orange
+      } else {
+        statusDisplay.innerText = "Obese";
+        statusDisplay.style.color = "#EF5350"; // red
+      }
+    }
+
+    function resetForm() {
+      document.getElementById('bmiForm').reset();
+      document.getElementById('bmi').innerText = "";
+      document.getElementById('status').innerText = "";
+    }
+  </script>
+
+</body>
+</html>
